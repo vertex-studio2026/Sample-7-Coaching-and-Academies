@@ -1,143 +1,136 @@
-import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Target, Award, Trophy, Star } from 'lucide-react';
+import { FileText, MessageCircle, Phone, ShieldCheck, Users, ListChecks } from 'lucide-react';
+import SectionHeading from './ui/SectionHeading';
+import SampleNote from './ui/SampleNote';
+import { resultRules, sampleResultSheet, site, whatsappLink } from '../data/site';
 
-function AnimatedCounter({ end, suffix = '', duration = 2 }: { end: number; suffix?: string; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [started]);
-
-  useEffect(() => {
-    if (!started) return;
-    let startTime: number;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [started, end, duration]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
-const stats = [
-  { icon: Target, value: 50000, suffix: '+', label: 'Students Trained Since 2009', description: 'Across all programs' },
-  { icon: Award, value: 98, suffix: '%', label: 'Exam Selection Rate', description: 'Consistent over 5 years' },
-  { icon: Trophy, value: 200, suffix: '+', label: 'Top 1000 Ranks', description: 'JEE & NEET combined' },
-  { icon: Star, value: 50, suffix: '+', label: 'AIR Under 100', description: 'In JEE Advanced' },
-];
-
-const achievements = [
-  { year: '2024', title: 'JEE Advanced', detail: '50+ AIR under 100', color: 'bg-blue-500' },
-  { year: '2024', title: 'NEET', detail: '35+ scored above 700', color: 'bg-emerald-500' },
-  { year: '2023', title: 'JEE Advanced', detail: '45+ AIR under 100', color: 'bg-purple-500' },
-  { year: '2023', title: 'NEET', detail: '30+ scored above 700', color: 'bg-amber-500' },
-  { year: '2022', title: 'JEE Advanced', detail: '40+ AIR under 100', color: 'bg-rose-500' },
-  { year: '2022', title: 'NEET', detail: '28+ scored above 700', color: 'bg-cyan-500' },
-];
+const ruleIcons = [ListChecks, ShieldCheck, Users];
 
 export default function Results() {
   return (
     <section id="results" className="py-20 lg:py-28 hero-gradient relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-      </div>
+      <div className="absolute inset-0 grain opacity-30" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block text-sm font-bold text-accent tracking-widest uppercase mb-4 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full"
-          >
-            Results & Achievements
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6"
-          >
-            Numbers That{' '}
-            <span className="gradient-text">Speak Volumes</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-400"
-          >
-            Our results don't lie. Every year, we set new benchmarks in competitive exam preparation.
-          </motion.p>
-        </div>
+        <SectionHeading
+          dark
+          eyebrow="Results, reported honestly"
+          title={
+            <>
+              Scores with a <span className="gradient-text">denominator</span>
+            </>
+          }
+          description="A top rank with no batch size next to it tells you nothing. Every sheet we publish states how many students were in the batch, how many wrote the exam, and how the rest of the class did."
+        />
 
-        {/* Stats Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-          {stats.map((stat, i) => (
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-6 lg:gap-8 items-start">
+          <div className="space-y-4">
+            {resultRules.map((rule, index) => {
+              const Icon = ruleIcons[index] ?? FileText;
+              return (
+                <motion.div
+                  key={rule.title}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="glass rounded-2xl p-6 flex gap-4"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-accent/15 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-5 h-5 text-accent" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold mb-1.5">{rule.title}</h3>
+                    <p className="text-slate-300 text-sm leading-relaxed">{rule.body}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+
             <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="glass rounded-2xl p-8 text-center group"
+              className="flex flex-col sm:flex-row gap-3 pt-2"
             >
-              <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-colors">
-                <stat.icon className="w-7 h-7 text-accent" />
-              </div>
-              <p className="text-4xl lg:text-5xl font-black text-white mb-2">
-                <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-              </p>
-              <p className="text-white font-semibold mb-1">{stat.label}</p>
-              <p className="text-gray-500 text-sm">{stat.description}</p>
+              <a
+                href={whatsappLink('Hi, could you send me the last published batch-wise result sheet?')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-green-600 text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:bg-green-700 transition-colors"
+              >
+                <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                Request the last result sheet
+              </a>
+              <a
+                href={site.phoneHref}
+                className="inline-flex items-center justify-center gap-2 border border-white/25 text-white font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-white/10 transition-colors"
+              >
+                <Phone className="w-4 h-4" aria-hidden="true" />
+                {site.phoneDisplay}
+              </a>
             </motion.div>
-          ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-2xl p-6 sm:p-7 shadow-2xl shadow-black/30"
+          >
+            <div className="flex items-start justify-between gap-3 mb-1">
+              <h3 className="text-lg font-bold text-navy tracking-tight">What a result sheet looks like</h3>
+              <span className="flex-shrink-0 text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                Sample
+              </span>
+            </div>
+            <p className="text-sm text-slate-500 mb-5">{sampleResultSheet.batch}</p>
+
+            <div className="grid grid-cols-3 gap-2 mb-5">
+              {[sampleResultSheet.strength, sampleResultSheet.sat, sampleResultSheet.consent].map((item) => (
+                <div key={item} className="bg-slate-50 border border-slate-100 rounded-lg px-2.5 py-2">
+                  <p className="text-[11px] text-slate-600 leading-snug">{item}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-xl border border-slate-200 overflow-hidden">
+              <div className="grid grid-cols-4 bg-slate-50 text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-3 py-2">
+                <span>Student</span>
+                <span className="text-right">Board</span>
+                <span className="text-right">Test avg.</span>
+                <span className="text-right">Change</span>
+              </div>
+              {sampleResultSheet.rows.map((row) => (
+                <div
+                  key={row.roll}
+                  className="grid grid-cols-4 px-3 py-2.5 text-sm border-t border-slate-100 text-slate-700"
+                >
+                  <span className="font-medium text-navy">{row.roll}</span>
+                  <span className="text-right tabular-nums">{row.board}</span>
+                  <span className="text-right tabular-nums">{row.testAvg}</span>
+                  <span
+                    className={`text-right tabular-nums font-semibold ${
+                      row.change.startsWith('−') ? 'text-red-600' : 'text-green-700'
+                    }`}
+                  >
+                    {row.change}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-xs text-slate-500 mt-4 leading-relaxed">
+              Names are replaced by roll numbers until a parent signs the consent form. Change is measured against
+              the student’s first diagnostic test, not against the topper.
+            </p>
+          </motion.div>
         </div>
 
-        {/* Achievements Timeline */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="glass rounded-3xl p-8 lg:p-12"
-        >
-          <h3 className="text-2xl font-bold text-white mb-8 text-center">Year-wise Achievements</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {achievements.map((ach, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white/5 rounded-xl p-6 flex items-start gap-4 hover:bg-white/10 transition-colors"
-              >
-                <div className={`w-3 h-3 ${ach.color} rounded-full mt-2 flex-shrink-0`} />
-                <div>
-                  <span className="text-accent font-bold text-sm">{ach.year}</span>
-                  <h4 className="text-white font-bold text-lg">{ach.title}</h4>
-                  <p className="text-gray-400 text-sm">{ach.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <SampleNote tone="dark">
+          The sheet above is a sample built for this demo, not a record of real students. A live academy should paste
+          its own verified data here — and delete the section entirely until it has a full cycle to publish.
+        </SampleNote>
       </div>
     </section>
   );

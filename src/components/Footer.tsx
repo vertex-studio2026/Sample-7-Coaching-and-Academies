@@ -1,63 +1,60 @@
-import { MapPin, Phone, Mail, Clock, MessageCircle, GraduationCap, Globe, Share2, Image, Video, Users } from 'lucide-react';
-import { useState } from 'react';
-import ContactModal from './ContactModal';
+import { MapPin, Phone, Mail, Clock, MessageCircle, GraduationCap, ArrowUpRight } from 'lucide-react';
+import { demoNote, navLinks, site, whatsappLink } from '../data/site';
+
+const courseLinks = [
+  'JEE Main & Advanced',
+  'NEET (UG)',
+  'Board classes (11 & 12)',
+  'Foundation (Class 8–10)',
+  'Crash course (January)',
+  'Test series only',
+];
 
 export default function Footer() {
-  const [modalOpen, setModalOpen] = useState(false);
-
   return (
-    <footer className="bg-navy relative overflow-hidden pb-24 sm:pb-0">
-      {/* Top gradient */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
+    <footer className="bg-navy relative overflow-hidden pb-28 sm:pb-0">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+          <div>
+            <div className="flex items-center gap-2.5 mb-5">
               <div className="w-10 h-10 gradient-accent rounded-xl flex items-center justify-center">
-                <GraduationCap className="w-6 h-6 text-navy" />
+                <GraduationCap className="w-6 h-6 text-navy" aria-hidden="true" />
               </div>
               <div>
-                <span className="text-xl font-bold text-white">Edu<span className="text-accent">Vantage</span></span>
-                <p className="text-[10px] text-blue-light -mt-1 tracking-widest uppercase">Academy</p>
+                <span className="text-xl font-bold text-white">
+                  Edu<span className="text-accent">Vantage</span>
+                </span>
+                <p className="text-[10px] text-blue-light -mt-1 tracking-[0.18em] uppercase">Academy · Kothrud</p>
               </div>
             </div>
-            <p className="text-gray-400 leading-relaxed mb-6">
-              Transforming academic dreams into reality since 2009. India's most trusted coaching academy for competitive exam preparation.
-            </p>
-            <div className="flex gap-3">
-              {[{Icon: Globe, label: 'Website'}, {Icon: Share2, label: 'Share'}, {Icon: Image, label: 'Photos'}, {Icon: Video, label: 'Videos'}, {Icon: Users, label: 'Community'}].map(({Icon, label}, i) => (
-                <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-blue-600 transition-colors group" aria-label={label}>
-                  <Icon className="w-4 h-4 text-gray-400 group-hover:text-white" />
-                </a>
-              ))}
-            </div>
+            <p className="text-slate-400 leading-relaxed text-sm mb-5">{site.tagline}</p>
+            <p className="text-xs text-slate-500 leading-relaxed border-l-2 border-white/15 pl-3">{demoNote}</p>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Quick Links</h3>
+            <h3 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">Pages</h3>
             <ul className="space-y-3">
-              {['About Us', 'Our Faculty', 'Student Results', 'Testimonials', 'Gallery', 'Careers', 'Blog'].map(link => (
-                <li key={link}>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2 group">
-                    <span className="w-1.5 h-1.5 bg-blue-500 rounded-full group-hover:scale-150 transition-transform" />
-                    {link}
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-slate-400 hover:text-white transition-colors text-sm"
+                  >
+                    {link.label}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Courses */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Our Courses</h3>
+            <h3 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">Programmes</h3>
             <ul className="space-y-3">
-              {['JEE Mains & Advanced', 'NEET Preparation', 'CBSE Board Classes', 'Foundation Course', 'Olympiad Prep', 'Crash Course'].map(course => (
+              {courseLinks.map((course) => (
                 <li key={course}>
-                  <a href="#courses" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2 group">
-                    <span className="w-1.5 h-1.5 bg-accent rounded-full group-hover:scale-150 transition-transform" />
+                  <a href="#courses" className="text-slate-400 hover:text-white transition-colors text-sm">
                     {course}
                   </a>
                 </li>
@@ -65,49 +62,75 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
-            <h3 className="text-white font-bold text-lg mb-6">Contact Us</h3>
-            <div className="space-y-4 mb-6">
+            <h3 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">Contact</h3>
+            <div className="space-y-3.5">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                <p className="text-gray-400 text-sm">402, Knowledge Tower, Rajouri Garden, New Delhi - 110027</p>
+                <MapPin className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  {site.addressLines[0]}
+                  <br />
+                  {site.addressLines[1]}
+                </p>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <a href="tel:+919876543210" className="text-gray-400 hover:text-white transition-colors text-sm">+91 98765 43210</a>
+                <Phone className="w-4 h-4 text-blue-500 flex-shrink-0" aria-hidden="true" />
+                <a href={site.phoneHref} className="text-slate-400 hover:text-white transition-colors text-sm">
+                  {site.phoneDisplay}
+                </a>
               </div>
               <div className="flex items-center gap-3">
-                <MessageCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                <a href="https://wa.me/919876543210" className="text-gray-400 hover:text-green-400 transition-colors text-sm">WhatsApp: +91 98765 43210</a>
+                <MessageCircle className="w-4 h-4 text-green-500 flex-shrink-0" aria-hidden="true" />
+                <a
+                  href={whatsappLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-green-400 transition-colors text-sm"
+                >
+                  WhatsApp
+                </a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <a href="mailto:info@eduvantage.edu.in" className="text-gray-400 hover:text-white transition-colors text-sm">info@eduvantage.edu.in</a>
+                <Mail className="w-4 h-4 text-blue-500 flex-shrink-0" aria-hidden="true" />
+                <a href={site.emailHref} className="text-slate-400 hover:text-white transition-colors text-sm">
+                  {site.email}
+                </a>
               </div>
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                <p className="text-gray-400 text-sm">Mon - Sat: 8:00 AM - 9:00 PM</p>
+              <div className="flex items-start gap-3">
+                <Clock className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                <p className="text-slate-400 text-sm">
+                  Mon–Fri 8 am – 9 pm
+                  <br />
+                  Sat 8 am – 6 pm
+                </p>
               </div>
             </div>
-            <button onClick={() => setModalOpen(true)} className="w-full gradient-accent text-navy font-bold py-3 rounded-xl hover:opacity-90 transition-all text-sm">
-              Enquire Now
-            </button>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm">© 2025 EduVantage Academy. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Terms of Service</a>
-            <a href="#" className="text-gray-500 hover:text-gray-300 text-sm transition-colors">Refund Policy</a>
+        <div className="border-t border-white/10 pt-7 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-slate-500 text-xs sm:text-sm">
+            © 2026 {site.name}. Sample site — illustrative content only.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <a href="#courses" className="text-slate-500 hover:text-slate-300 text-xs sm:text-sm transition-colors">
+              Fees &amp; refunds
+            </a>
+            <a href="#faq" className="text-slate-500 hover:text-slate-300 text-xs sm:text-sm transition-colors">
+              Common questions
+            </a>
+            <a
+              href={site.studioCredit.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-400 hover:text-accent text-xs sm:text-sm transition-colors inline-flex items-center gap-1.5 font-medium"
+            >
+              {site.studioCredit.label}
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>
-
-      <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </footer>
   );
 }

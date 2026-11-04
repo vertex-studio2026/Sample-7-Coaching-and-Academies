@@ -1,185 +1,144 @@
-import { motion } from 'framer-motion';
-import { Users, Award, TrendingUp, Star, BookOpen, Play, ChevronRight } from 'lucide-react';
-import ContactModal from './ContactModal';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Check, MapPin, Clock } from 'lucide-react';
+import classroomImg from '../assets/classroom.jpg';
+import ContactModal from './ContactModal';
+import { heroFacts, site } from '../data/site';
 
 export default function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <section className="hero-gradient relative min-h-screen flex items-center overflow-hidden pt-20">
-      {/* Background decorations */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl" />
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-      </div>
+    <>
+      <section id="top" className="hero-gradient relative overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-24">
+        <div className="absolute inset-0 grain opacity-40" aria-hidden="true" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left content */}
-          <motion.div
-            initial={{ opacity: 0, x: -60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          >
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 mb-8"
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-sm text-gray-300">Admissions Open for 2025-26</span>
+              <div className="inline-flex items-center gap-2 bg-white/[0.07] border border-white/15 rounded-full px-4 py-2 mb-7">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                </span>
+                <span className="text-sm text-slate-200">{site.admissionLine}</span>
+              </div>
+
+              <h1 className="text-[2.6rem] sm:text-5xl lg:text-[3.5rem] xl:text-[3.9rem] font-black text-white leading-[1.06] tracking-tight mb-5">
+                Class 8–12 coaching
+                <br />
+                <span className="gradient-text">in Kothrud, Pune.</span>
+              </h1>
+
+              <p className="text-lg sm:text-xl font-semibold text-accent mb-3">
+                Small batches. Clear reports. No hype.
+              </p>
+
+              <p className="text-base sm:text-lg text-slate-300 max-w-xl mb-9 leading-relaxed">
+                JEE, NEET and board preparation with twenty students per batch, two free demo classes, and a written
+                progress report for parents every month.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3.5 mb-11">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(true)}
+                  className="gradient-accent text-navy font-bold px-7 py-4 rounded-xl text-base hover:brightness-105 transition-all flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20"
+                >
+                  Book two free classes
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <a
+                  href="#courses"
+                  className="glass text-white font-semibold px-7 py-4 rounded-xl text-base hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+                >
+                  See courses &amp; fees
+                </a>
+              </div>
+
+              <dl className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-5 max-w-xl">
+                {heroFacts.map((fact, index) => (
+                  <motion.div
+                    key={fact.label}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 + index * 0.08 }}
+                  >
+                    <dt className="flex items-center gap-1.5 text-white font-bold text-lg leading-none mb-1.5">
+                      <Check className="w-4 h-4 text-accent" aria-hidden="true" />
+                      {fact.value}
+                    </dt>
+                    <dd className="text-xs text-slate-400 leading-snug">{fact.label}</dd>
+                  </motion.div>
+                ))}
+              </dl>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.1] mb-6">
-              Learn Better.
-              <br />
-              <span className="gradient-text">Score Higher.</span>
-              <br />
-              <span className="text-gray-400">Build Your Future.</span>
-            </h1>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+              className="relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden border border-white/15 shadow-2xl shadow-black/40">
+                <img
+                  src={classroomImg}
+                  alt="A classroom at the EduVantage centre in Kothrud with twenty desks and a whiteboard"
+                  width={1100}
+                  height={600}
+                  className="w-full h-[300px] sm:h-[380px] object-cover"
+                  loading="eager"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent" aria-hidden="true" />
 
-            <p className="text-lg sm:text-xl text-gray-400 max-w-xl mb-10 leading-relaxed">
-              Join India's most trusted coaching academy with 15+ years of excellence. 
-              Our proven methodology has helped 50,000+ students crack their dream exams.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button onClick={() => setModalOpen(true)} className="gradient-accent text-navy font-bold px-8 py-4 rounded-xl text-lg hover:opacity-90 transition-all transform hover:scale-105 flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25">
-                Book a Free Demo Class
-                <ChevronRight className="w-5 h-5" />
-              </button>
-              <a href="#courses" className="group glass text-white font-semibold px-8 py-4 rounded-xl text-lg hover:bg-white/15 transition-all flex items-center justify-center gap-2">
-                <BookOpen className="w-5 h-5" />
-                Explore Our Courses
-              </a>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                { icon: Users, value: '50,000+', label: 'Students Trained' },
-                { icon: Award, value: '98%', label: 'Results Rate' },
-                { icon: TrendingUp, value: '15+', label: 'Years Experience' },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + i * 0.15 }}
-                  className="text-center sm:text-left"
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <item.icon className="w-5 h-5 text-accent" />
-                    <span className="text-2xl sm:text-3xl font-black text-white">{item.value}</span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-gray-500">{item.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Right - Visual */}
-          <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative">
-              {/* Main card */}
-              <div className="glass rounded-3xl p-8 relative z-10">
-                <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-white/80 text-sm">Live Class in Progress</span>
-                    <span className="flex items-center gap-1.5 text-green-400 text-sm">
-                      <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                      Live
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">PK</span>
-                    </div>
-                    <div>
-                      <h4 className="text-white font-semibold">Physics - JEE Advanced</h4>
-                      <p className="text-white/60 text-sm">Chapter: Rotational Mechanics</p>
-                    </div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="flex items-center justify-between text-white/80 text-sm mb-2">
-                      <span>Progress</span>
-                      <span>72%</span>
-                    </div>
-                    <div className="w-full bg-white/20 rounded-full h-2">
-                      <div className="bg-accent rounded-full h-2 w-[72%]" />
-                    </div>
-                  </div>
+                <div className="absolute top-4 right-4 glass rounded-xl px-3 py-2 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-accent" aria-hidden="true" />
+                  <span className="text-xs text-white font-medium">Doubt desk 6:00–8:30 pm</span>
                 </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 rounded-xl p-4 text-center">
-                    <Star className="w-6 h-6 text-accent mx-auto mb-2" />
-                    <p className="text-white font-bold text-xl">4.9/5</p>
-                    <p className="text-gray-500 text-xs">Student Rating</p>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 text-center">
-                    <Play className="w-6 h-6 text-blue-light mx-auto mb-2" />
-                    <p className="text-white font-bold text-xl">500+</p>
-                    <p className="text-gray-500 text-xs">Video Lectures</p>
-                  </div>
+
+                <div className="absolute bottom-0 inset-x-0 p-5">
+                  <p className="text-white font-semibold">Classroom · Kothrud centre</p>
+                  <p className="text-slate-300 text-sm">Twenty desks. The twenty-first chair does not exist.</p>
                 </div>
               </div>
 
-              {/* Floating elements */}
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-6 -right-6 glass rounded-2xl p-4 z-20"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-sm">AIR 42</p>
-                    <p className="text-gray-500 text-xs">JEE Advanced 2024</p>
-                  </div>
+              <div className="absolute -bottom-6 -left-3 sm:-left-6 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 border border-slate-100">
+                <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-blue-600" aria-hidden="true" />
                 </div>
-              </motion.div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Next batch</p>
+                  <p className="text-sm font-bold text-navy">12 January 2027</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-              <motion.div
-                animate={{ y: [0, 15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute -bottom-4 -left-4 glass rounded-2xl p-4 z-20"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
-                    <Award className="w-5 h-5 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-sm">100% Selection</p>
-                    <p className="text-gray-500 text-xs">in Top 100 Colleges</p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+      <div className="bg-slate-50 border-y border-slate-200/70">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p className="text-xs sm:text-sm text-slate-600">
+            <span className="font-semibold text-navy">JEE Main &amp; Advanced</span> · NEET (UG) · CBSE &amp; State
+            board · Foundation Class 8–10
+          </p>
+          <a
+            href={site.mapHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs sm:text-sm text-slate-600 hover:text-blue-700 transition-colors inline-flex items-center gap-1.5"
+          >
+            <MapPin className="w-4 h-4 text-blue-600" aria-hidden="true" />
+            {site.addressLines[1]} · Mon–Sat
+          </a>
         </div>
       </div>
 
-      {/* Bottom wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white" />
-        </svg>
-      </div>
-
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
-    </section>
+    </>
   );
 }
