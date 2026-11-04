@@ -1,128 +1,91 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Quote, Star, ClipboardCheck } from 'lucide-react';
+import SectionHeading from './ui/SectionHeading';
+import SampleNote from './ui/SampleNote';
+import { reviews } from '../data/site';
 
-const testimonials = [
-  {
-    name: 'Priya Sharma',
-    role: 'JEE Advanced — AIR 42',
-    college: 'IIT Bombay',
-    text: "EduVantage changed my life completely. The faculty here doesn't just teach formulas — they build concepts from scratch. Dr. Rajesh Sir's physics classes were the backbone of my preparation. I'm so grateful for the guidance and support throughout my journey.",
-    rating: 5,
-    initial: 'PS',
-    color: 'from-blue-500 to-blue-700',
-  },
-  {
-    name: 'Arjun Mehta',
-    role: 'NEET — Scored 712/720',
-    college: 'AIIMS Delhi',
-    text: "The structured approach to NEET preparation at EduVantage is unmatched. Regular tests, detailed analysis, and personalized doubt-solving sessions helped me stay on track. I never felt lost during my preparation. This academy truly cares about every student.",
-    rating: 5,
-    initial: 'AM',
-    color: 'from-emerald-500 to-emerald-700',
-  },
-  {
-    name: 'Mrs. Kavita Gupta',
-    role: 'Parent of Rohan Gupta (JEE AIR 156)',
-    college: 'IIT Madras',
-    text: "As a parent, I was looking for an institution that provides not just quality education but also a safe and supportive environment. EduVantage exceeded my expectations. They kept me updated on Rohan's progress and were always available for guidance.",
-    rating: 5,
-    initial: 'KG',
-    color: 'from-purple-500 to-purple-700',
-  },
-  {
-    name: 'Deepak Nair',
-    role: 'JEE Advanced — AIR 89',
-    college: 'IIT Delhi',
-    text: "The small batch size meant I got personal attention from every teacher. The test series was extremely well-designed and perfectly mimicked the actual exam pattern. I was always ready for the real exam thanks to the rigorous practice here.",
-    rating: 5,
-    initial: 'DN',
-    color: 'from-amber-500 to-amber-700',
-  },
-  {
-    name: 'Ananya Patel',
-    role: 'NEET — Scored 689/720',
-    college: 'Maulana Azad Medical College',
-    text: "Dr. Sneha Ma'am's biology classes were incredibly detailed. She made complex topics so easy to understand. The regular revision sessions and mock tests helped me maintain consistency. I would recommend EduVantage to every aspiring medical student.",
-    rating: 5,
-    initial: 'AP',
-    color: 'from-rose-500 to-rose-700',
-  },
-  {
-    name: 'Mr. Sanjay Reddy',
-    role: 'Parent of Ananya Patel',
-    college: 'N/A',
-    text: "What impressed us the most was the transparent communication. They provided detailed performance reports and regular parent-teacher meetings. We could always see our daughter's progress and areas needing improvement. Worth every penny.",
-    rating: 5,
-    initial: 'SR',
-    color: 'from-cyan-500 to-cyan-700',
-  },
+const reviewProcess = [
+  'At the end of every term, parents and students fill the same five-question form — not a testimonial written by us.',
+  'Quotes are published with a signed consent and without edits, including the critical ones.',
+  'Ratings are shown as the average of all returned forms, and the number of forms is printed next to it.',
 ];
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="py-20 lg:py-28 bg-surface">
+    <section id="reviews" className="py-20 lg:py-28 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block text-sm font-bold text-blue-600 tracking-widest uppercase mb-4 bg-blue-50 px-4 py-1.5 rounded-full"
-          >
-            Student Testimonials
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy mb-6"
-          >
-            Hear From Our{' '}
-            <span className="gradient-text">Success Stories</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-600"
-          >
-            Real stories from real students and parents who transformed their academic journey with EduVantage.
-          </motion.p>
-        </div>
+        <SectionHeading
+          eyebrow="What families say"
+          title={
+            <>
+              Reviews we can <span className="text-gradient-blue">show the source of</span>
+            </>
+          }
+          description="Short, specific notes from parents and students — no ranks, no college names, no “changed my life” copy. Each one comes from a term-end feedback form."
+        />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, i) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 40 }}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reviews.map((review, index) => (
+            <motion.blockquote
+              key={review.attribution}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group bg-white rounded-2xl p-8 card-shadow border border-gray-100 hover:border-blue-200 relative"
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.45, delay: index * 0.07 }}
+              className="bg-white rounded-2xl p-7 border border-slate-200 card-shadow hover:border-blue-200 flex flex-col"
             >
-              <div className="absolute top-6 right-6 text-5xl text-blue-100 font-serif leading-none">"</div>
-              <div className="flex items-center gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, j) => (
-                  <Star key={j} className="w-4 h-4 fill-accent text-accent" />
-                ))}
-              </div>
-              <p className="text-gray-600 leading-relaxed mb-6 relative z-10">{testimonial.text}</p>
-              <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                <div className={`w-12 h-12 bg-gradient-to-br ${testimonial.color} rounded-xl flex items-center justify-center`}>
-                  <span className="text-white font-bold">{testimonial.initial}</span>
+              <Quote className="w-7 h-7 text-blue-200 mb-4" aria-hidden="true" />
+              <p className="text-slate-700 leading-relaxed text-[15px] mb-6">{review.quote}</p>
+              <footer className="mt-auto flex items-center gap-3 pt-5 border-t border-slate-100">
+                <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${review.color} flex items-center justify-center flex-shrink-0`}>
+                  <span className="text-white font-bold text-sm">{review.initials}</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-navy">{testimonial.name}</h4>
-                  <p className="text-blue-600 text-sm font-medium">{testimonial.role}</p>
-                  <p className="text-gray-500 text-xs">{testimonial.college}</p>
+                  <p className="text-sm font-semibold text-navy">{review.attribution}</p>
+                  <div
+                    role="img"
+                    className="flex items-center gap-0.5 mt-1"
+                    aria-label="Rated 5 out of 5 in the term feedback form"
+                  >
+                    {Array.from({ length: 5 }).map((_, starIndex) => (
+                      <Star key={starIndex} className="w-3 h-3 fill-amber-400 text-amber-400" aria-hidden="true" />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </footer>
+            </motion.blockquote>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-8 bg-white border border-slate-200 rounded-2xl p-7 lg:p-8 grid lg:grid-cols-[0.8fr_1.2fr] gap-6 items-start"
+        >
+          <div>
+            <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+              <ClipboardCheck className="w-5 h-5 text-blue-600" aria-hidden="true" />
+            </div>
+            <h3 className="text-lg font-bold text-navy mb-2">How we collect these</h3>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Published reviews should have a paper trail. Ours starts with the same form every family fills in.
+            </p>
+          </div>
+          <ul className="space-y-3">
+            {reviewProcess.map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-[15px] text-slate-700 leading-relaxed">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 flex-shrink-0 mt-2" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <SampleNote>
+          Sample reviews for layout only. Replace them with quotes from real feedback forms, used with written
+          consent — and never invent a student, a rank or a college for a testimonial card.
+        </SampleNote>
       </div>
     </section>
   );

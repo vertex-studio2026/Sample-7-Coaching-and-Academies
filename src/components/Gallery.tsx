@@ -1,96 +1,101 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Users, GraduationCap, Trophy, BookOpen, Music } from 'lucide-react';
-
-const galleryItems = [
-  { icon: Camera, title: 'Classroom Sessions', description: 'Interactive and engaging classroom learning', color: 'bg-blue-500', emoji: '📸' },
-  { icon: Users, title: 'Student Activities', description: 'Group discussions and peer learning', color: 'bg-emerald-500', emoji: '👥' },
-  { icon: GraduationCap, title: 'Workshop Events', description: 'Special workshops and seminars', color: 'bg-purple-500', emoji: '🎓' },
-  { icon: Trophy, title: 'Award Ceremonies', description: 'Celebrating student achievements', color: 'bg-amber-500', emoji: '🏆' },
-  { icon: BookOpen, title: 'Study Camps', description: 'Intensive pre-exam preparation camps', color: 'bg-rose-500', emoji: '📖' },
-  { icon: Music, title: 'Cultural Events', description: 'Annual day celebrations and events', color: 'bg-cyan-500', emoji: '🎉' },
-];
+import { MapPin, Clock, ArrowUpRight } from 'lucide-react';
+import SectionHeading from './ui/SectionHeading';
+import SampleNote from './ui/SampleNote';
+import { facilities, site } from '../data/site';
 
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const categories = ['All', 'Classes', 'Events', 'Achievements'];
-
   return (
-    <section id="gallery" className="py-20 lg:py-28 bg-surface">
+    <section id="centre" className="py-20 lg:py-28 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block text-sm font-bold text-blue-600 tracking-widest uppercase mb-4 bg-blue-50 px-4 py-1.5 rounded-full"
-          >
-            Gallery
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy mb-6"
-          >
-            Life at{' '}
-            <span className="gradient-text">EduVantage</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-600"
-          >
-            Take a glimpse into the vibrant learning environment that makes EduVantage special.
-          </motion.p>
-        </div>
+        <SectionHeading
+          align="left"
+          eyebrow="The centre"
+          title={
+            <>
+              See the rooms <span className="text-gradient-blue">before you visit</span>
+            </>
+          }
+          description="Four rooms and a front desk, on Paud Road in Kothrud. Photos are unretouched and show the actual furniture — including how many chairs fit in a batch."
+        />
 
-        {/* Filter tabs */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                activeCategory === cat
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+        <div className="grid lg:grid-cols-3 gap-5">
+          {facilities.map((item, index) => (
+            <motion.figure
+              key={item.title}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.45, delay: index * 0.06 }}
+              className={`group relative overflow-hidden rounded-2xl border border-slate-200 bg-navy ${
+                index === 0 ? 'lg:col-span-2' : ''
               }`}
             >
-              {cat}
-            </button>
+              <img
+                src={item.image}
+                alt={`${item.title} at the EduVantage centre, ${site.locality}`}
+                width={1100}
+                height={600}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                className="w-full h-64 sm:h-72 object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" aria-hidden="true" />
+              <figcaption className="absolute inset-x-0 bottom-0 p-5">
+                <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-accent mb-1.5">
+                  {item.tag}
+                </span>
+                <p className="text-white font-bold text-lg leading-tight mb-1">{item.title}</p>
+                <p className="text-slate-300 text-sm leading-relaxed max-w-md">{item.caption}</p>
+              </figcaption>
+            </motion.figure>
           ))}
-        </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {galleryItems.map((item, i) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -8, scale: 1.02 }}
-              className="group cursor-pointer"
-            >
-              <div className={`bg-gradient-to-br ${item.color} rounded-2xl p-8 relative overflow-hidden h-64 flex flex-col items-center justify-center`}>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                <div className="relative z-10 text-center">
-                  <span className="text-6xl mb-4 block">{item.emoji}</span>
-                  <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-                  <p className="text-white/80 text-sm">{item.description}</p>
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-2xl border border-slate-200 bg-white p-6 flex flex-col justify-between"
+          >
+            <div>
+              <h3 className="text-lg font-bold text-navy mb-4">Visit the centre</h3>
+              <div className="space-y-3.5">
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {site.addressLines[0]}
+                    <br />
+                    {site.addressLines[1]}
+                  </p>
                 </div>
-                <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:scale-100 scale-75">
-                  <Camera className="w-5 h-5 text-white" />
+                <div className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                  <dl className="text-sm text-slate-600 space-y-1">
+                    {site.hours.map((entry) => (
+                      <div key={entry.days} className="flex flex-col">
+                        <dt className="font-medium text-navy">{entry.days}</dt>
+                        <dd>{entry.time}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
+            <a
+              href={site.mapHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center justify-between gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl text-sm hover:bg-navy-light transition-colors"
+            >
+              Open in Google Maps
+              <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+          </motion.div>
+        </div>
+
+        <SampleNote>
+          Representative images for this demo. Swap in real, properly lit photographs of the academy’s own rooms —
+          no stock photos of other people’s classrooms, and no images of students without a signed consent form.
+        </SampleNote>
       </div>
     </section>
   );

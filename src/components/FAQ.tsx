@@ -1,130 +1,106 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-
-const faqs = [
-  {
-    question: 'What courses does EduVantage Academy offer?',
-    answer: 'We offer comprehensive preparation for JEE Mains & Advanced, NEET, CBSE Board Classes (Class 11 & 12), Foundation Courses (Class 8-10), Olympiad Preparation (NTSE, KVPY), and intensive Crash Courses. Each program is designed by subject experts following the latest exam patterns and syllabus.',
-  },
-  {
-    question: 'What is the fee structure for the courses?',
-    answer: 'Our fees vary based on the course and duration. JEE & NEET preparation starts at ₹42,000/year, Board Classes at ₹25,000/year, Foundation Course at ₹18,000/year, and Crash Courses at ₹28,000. We also offer early-bird discounts and sibling discounts. Contact us for a detailed fee breakdown.',
-  },
-  {
-    question: 'Do you offer free demo classes?',
-    answer: 'Yes! We strongly believe in letting you experience our teaching methodology before committing. Book a free demo class through our website or call us at +91 98765 43210. During the demo, you can interact with faculty, understand the teaching approach, and evaluate the learning environment.',
-  },
-  {
-    question: 'What are the batch timings?',
-    answer: 'We offer flexible timings to suit all students:\n\n• Morning Batch: 8:00 AM – 12:00 PM\n• Day Batch: 10:00 AM – 2:00 PM\n• Evening Batch: 4:00 PM – 8:00 PM\n• Weekend Batch: Saturday & Sunday, 9:00 AM – 4:00 PM\n\nDoubt-solving sessions are available daily from 6:00 PM – 9:00 PM.',
-  },
-  {
-    question: 'Do you offer online classes as well?',
-    answer: 'Absolutely! We offer three learning modes:\n\n• Offline: Face-to-face classes at our center\n• Online Live: Real-time interactive classes via Zoom\n• Hybrid: Combination of offline and online\n\nAll online students receive the same study material, test series, and doubt-solving support as offline students.',
-  },
-  {
-    question: 'What is the batch size?',
-    answer: 'We maintain small batch sizes of maximum 25 students per class to ensure personalized attention. For our premium one-on-one mentorship program, we have even smaller groups of 10-15 students.',
-  },
-  {
-    question: 'How is the test series structured?',
-    answer: 'Our test series includes:\n\n• Chapter-wise tests (weekly)\n• Full syllabus tests (monthly)\n• Mock exams (bi-monthly, exam-like environment)\n• Previous year papers analysis\n\nEach test comes with detailed performance reports, rank analysis, and personalized improvement plans.',
-  },
-  {
-    question: 'What is your refund policy?',
-    answer: 'We offer a 7-day no-questions-asked refund policy from the date of enrollment. After 7 days, pro-rata refunds are available. We also offer the option to defer admission to the next batch or academic year at no extra cost.',
-  },
-];
+import { ChevronDown, Phone, MessageCircle } from 'lucide-react';
+import SectionHeading from './ui/SectionHeading';
+import { faqs, site, whatsappLink } from '../data/site';
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <section id="faq" className="py-20 lg:py-28 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block text-sm font-bold text-blue-600 tracking-widest uppercase mb-4 bg-blue-50 px-4 py-1.5 rounded-full"
-          >
-            FAQ
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-5xl font-black text-navy mb-6"
-          >
-            Frequently Asked{' '}
-            <span className="gradient-text">Questions</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-gray-600"
-          >
-            Got questions? We've got answers. If you don't find what you're looking for, feel free to contact us.
-          </motion.p>
-        </div>
+        <SectionHeading
+          eyebrow="FAQ"
+          title={
+            <>
+              The questions parents <span className="text-gradient-blue">actually ask</span>
+            </>
+          }
+          description="Fees, batch size, refunds and what happens when a teacher leaves — answered without a sales call."
+        />
 
-        <div className="space-y-4">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="border border-gray-200 rounded-2xl overflow-hidden hover:border-blue-200 transition-colors"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-6 text-left"
+        <div className="space-y-3">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            const panelId = `faq-panel-${index}`;
+            const buttonId = `faq-button-${index}`;
+            return (
+              <motion.div
+                key={faq.question}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.24) }}
+                className={`border rounded-xl overflow-hidden transition-colors ${
+                  isOpen ? 'border-blue-200 bg-blue-50/40' : 'border-slate-200 bg-white hover:border-slate-300'
+                }`}
               >
-                <h3 className="text-lg font-bold text-navy pr-4">{faq.question}</h3>
-                <ChevronDown
-                  className={`w-5 h-5 text-blue-600 flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === i ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              <AnimatePresence>
-                {openIndex === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                <h3>
+                  <button
+                    id={buttonId}
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    className="w-full flex items-center justify-between gap-4 text-left px-5 sm:px-6 py-5"
                   >
-                    <div className="px-6 pb-6">
-                      <div className="border-t border-gray-100 pt-4">
-                        <p className="text-gray-600 leading-relaxed whitespace-pre-line">{faq.answer}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+                    <span className="font-semibold text-navy text-[15px] sm:text-base">{faq.question}</span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-slate-500 flex-shrink-0 transition-transform duration-300 ${
+                        isOpen ? 'rotate-180' : ''
+                      }`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                </h3>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={buttonId}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 sm:px-6 pb-5 text-slate-600 leading-relaxed text-sm whitespace-pre-line">
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12 p-8 bg-surface rounded-2xl"
-        >
-          <p className="text-gray-600 mb-3">Still have questions?</p>
-          <a href="tel:+919876543210" className="inline-flex items-center gap-2 text-blue-600 font-bold text-lg hover:text-blue-800 transition-colors">
-            Call us at +91 98765 43210
-          </a>
-        </motion.div>
+        <div className="mt-10 bg-surface border border-slate-200 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+          <div>
+            <p className="font-semibold text-navy mb-1">Still unsure? Ask a direct question.</p>
+            <p className="text-sm text-slate-600">{site.replyPromise}</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href={site.phoneHref}
+              className="inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl text-sm hover:bg-navy-light transition-colors"
+            >
+              <Phone className="w-4 h-4" aria-hidden="true" />
+              {site.phoneDisplay}
+            </a>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 border border-slate-300 text-navy font-semibold px-5 py-3 rounded-xl text-sm hover:bg-white transition-colors"
+            >
+              <MessageCircle className="w-4 h-4 text-green-600" aria-hidden="true" />
+              WhatsApp
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
